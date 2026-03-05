@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: brain-tasks-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: brain-tasks
+  template:
+    metadata:
+      labels:
+        app: brain-tasks
+    spec:
+      containers:
+      - name: brain-tasks-container
+        image: 521886307975.dkr.ecr.ap-south-1.amazonaws.com/santhiya/brain-tasks-app:latest
+        ports:
+        - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: brain-tasks-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: brain-tasks
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
