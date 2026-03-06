@@ -26,8 +26,3 @@ phases:
       - echo Pushing image to ECR
       - docker push public.ecr.aws/e3g4s9r7/santhiya/brain-task:latest
       - echo Deploying to EKS
-      - kubectl apply -f deployment.yaml
-      - kubectl apply -f service.yaml
-      - echo "Verifying deployment..."
-      - kubectl get pods -n default
-      - kubectl get services -n default
