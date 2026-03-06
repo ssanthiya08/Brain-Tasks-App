@@ -18,7 +18,7 @@ metadata:
   namespace: default
 subjects:
 - kind: User
-  name: arn:aws:sts::521886307975:assumed-role/Myrole/AWSCodeBuild-9b26527a-8fe9-4215-9dca-d77dcb2d20d5
+  name: arn:aws:iam::521886307975:role/Myrole
   apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: Role
