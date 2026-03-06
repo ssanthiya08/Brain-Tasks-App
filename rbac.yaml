@@ -1,0 +1,27 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: codebuild-deployer
+rules:
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+- apiGroups: [""]
+  resources: ["services"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: codebuild-deployer-binding
+  namespace: default
+subjects:
+- kind: User
+  name: arn:aws:sts::521886307975:assumed-role/Myrole/AWSCodeBuild-9b26527a-8fe9-4215-9dca-d77dcb2d20d5
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: codebuild-deployer
+  apiGroup: rbac.authorization.k8s.io
+

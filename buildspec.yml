@@ -6,13 +6,14 @@ env:
     ACCOUNT_ID: 521886307975
     IMAGE_REPO_NAME: santhiya/brain-tasks-app
     IMAGE_TAG: latest
-    CLUSTER_NAME: brain-cluster
 
 phases:
+
   pre_build:
     commands:
       - echo Logging in to Amazon ECR
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      - aws eks update-kubeconfig --region $AWS_DEFAULT_REGION --name brain-cluster
 
   build:
     commands:
@@ -24,10 +25,7 @@ phases:
     commands:
       - echo Pushing image to ECR
       - docker push $ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
-
-      - echo Updating kubeconfig
-      - aws eks update-kubeconfig --region $AWS_DEFAULT_REGION --name $CLUSTER_NAME
-
       - echo Deploying to EKS
+      - kubectl get nodes
       - kubectl apply -f deployment.yaml
       - kubectl apply -f service.yaml
