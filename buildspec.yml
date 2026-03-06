@@ -12,19 +12,19 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR
-      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/e3g4s9r7
       - aws eks update-kubeconfig --region $AWS_DEFAULT_REGION --name brain-cluster
 
   build:
     commands:
       - echo Build started on `date`
-      - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .
-      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+      - docker build -t santhiya/brain-task .
+      - docker tag santhiya/brain-task:latest public.ecr.aws/e3g4s9r7/santhiya/brain-task:latest
 
   post_build:
     commands:
       - echo Pushing image to ECR
-      - docker push $ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+      - docker push public.ecr.aws/e3g4s9r7/santhiya/brain-task:latest
       - echo Deploying to EKS
       - kubectl apply -f deployment.yaml
       - kubectl apply -f service.yaml
