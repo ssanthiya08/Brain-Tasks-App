@@ -24,4 +24,26 @@ roleRef:
   kind: Role
   name: codebuild-deployer
   apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: codebuild-cluster-reader
+rules:
+- apiGroups: [""]
+  resources: ["nodes"]
+  verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: codebuild-cluster-reader-binding
+subjects:
+- kind: User
+  name: arn:aws:sts::521886307975:assumed-role/Myrole/AWSCodeBuild-811e25c9-65c8-4ee7-a943-d1667899763b
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: codebuild-cluster-reader
+  apiGroup: rbac.authorization.k8s.io
 
