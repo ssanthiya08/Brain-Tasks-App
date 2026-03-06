@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: brain-tasks-container
-        image: 521886307975.dkr.ecr.ap-south-1.amazonaws.com/santhiya/brain-tasks-app:latest
+        image: public.ecr.aws/e3g4s9r7/santhiya/brain-task
         ports:
         - containerPort: 3000
 ---
